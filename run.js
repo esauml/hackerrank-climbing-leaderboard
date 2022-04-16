@@ -37,6 +37,6 @@ function run(climbingLeaderboard) {
     return result
 }
 
-console.log(run(listFn))
-// console.log(run(AlgoFn))
+// console.log(run(listFn))
+console.log(run(AlgoFn))
 
