@@ -3,14 +3,20 @@ export function climbingLeaderboard(ranked, player) {
     let result = []
     let memoTimes = 0
 
+    console.time('deleteDuplicates')
     // delete duplicates in array
     ranked = deleteDuplicates(ranked)
+    console.timeEnd('deleteDuplicates')
+
+    console.time('insertMemo')
     // insert ranked as key in memo
     memo[ranked[0]] = 0
     for (let i = 1; i < ranked.length; i++) {
         memo[ranked[i]] = i
     }
+    console.timeEnd('insertMemo')
 
+    console.time('insertSortDesc')
     player.forEach(element => {
         // check is not element in memo as key
         if (!memo[element]) {
@@ -25,6 +31,7 @@ export function climbingLeaderboard(ranked, player) {
         // insert index in result
         result.push(index + 1)
     });
+    console.timeEnd('insertSortDesc')
 
     console.log('memoTimes:', memoTimes)
     return result
