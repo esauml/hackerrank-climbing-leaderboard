@@ -1,5 +1,5 @@
 import { climbingLeaderboard as listFn } from './LinkList.js'
-import { climbingLeaderboard as AlgoFn } from './Algorith.js'
+import { climbingLeaderboard as AlgoFn } from './Algorithm.js'
 import fs from 'fs'
 
 function run(climbingLeaderboard) {
@@ -11,6 +11,7 @@ function run(climbingLeaderboard) {
     let player = []
     const allFileContents = fs.readFileSync('input06.txt', 'utf-8')
 
+    // input read logic
     allFileContents.split(/\r?\n/).forEach(line => {
         if (count == 0) {
             rankCount = line
