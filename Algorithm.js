@@ -28,8 +28,9 @@ export function climbingLeaderboard(ranked, player) {
             memoTimes++
         }
 
+
         // index of element in ranked
-        let index = indexOf(ranked, element)
+        let index = binarySearch(ranked, element)
         // insert index in result
         result.push(index + 1)
     });
@@ -37,16 +38,6 @@ export function climbingLeaderboard(ranked, player) {
 
     console.log('memoTimes:', memoTimes)
     return result
-}
-
-// index of element in array
-function indexOf(array, element) {
-    for (let i = 0; i < array.length; i++) {
-        if (array[i] === element) {
-            return i
-        }
-    }
-    return -1
 }
 
 // delete duplicates in array
@@ -66,3 +57,30 @@ function insertSortDesc(array, element) {
     array[i + 1] = element;
     return array;
 }
+
+// binary search of element in descending sorted array
+// returns index of element in array
+function binarySearch(array, element) {
+    let startIndex = 0
+    let endIndex = array.length - 1
+    let middleIndex = Math.floor((startIndex + endIndex) / 2)
+    let middleValue = array[middleIndex]
+
+    while (startIndex <= endIndex) {
+        if (element === middleValue) {
+            return middleIndex
+        } else if (element > middleValue) {
+            endIndex = middleIndex - 1
+        } else {
+            startIndex = middleIndex + 1
+        }
+        middleIndex = Math.floor((startIndex + endIndex) / 2)
+        middleValue = array[middleIndex]
+    }
+    return -1
+}
+
+
+// let array = [100, 100, 50, 40, 40, 20, 10]
+// let index = binarySearch(array, 20)
+// console.log(index)
