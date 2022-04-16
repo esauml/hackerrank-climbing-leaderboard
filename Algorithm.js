@@ -12,7 +12,7 @@ export function climbingLeaderboard(ranked, player) {
     // insert ranked as key in memo
     memo[ranked[0]] = 0
     for (let i = 1; i < ranked.length; i++) {
-        memo[ranked[i]] = 1
+        memo[ranked[i]] = i
     }
     console.timeEnd('insertMemo')
 
@@ -20,24 +20,33 @@ export function climbingLeaderboard(ranked, player) {
     player.forEach(element => {
         // check is not element in memo as key
         if (!memo[element]) {
-            // insert element in descendent sorted array
-            ranked = insertSortDesc(ranked, element)
+            // search index of value bigger than element in ranked
+            let index = searchIndex(ranked, element)
             // insert element in memo
-            memo[element] = 1
+            memo[element] = index
+            // insert index in result
+            result.push(index + 1)
         } else {
             memoTimes++
+            return memo[element] + 1
         }
-
-
-        // index of element in ranked
-        let index = binarySearch(ranked, element)
-        // insert index in result
-        result.push(index + 1)
     });
     console.timeEnd('insertSortDesc')
 
     console.log('memoTimes:', memoTimes)
     return result
+}
+
+// search index of value bigger than element in ranked
+function searchIndex(ranked, element) {
+    let index = ranked.length - 1
+    for (let i = index; i >= 0; i--) {
+        if (ranked[i] <= element) {
+            index = i
+            break
+        }
+    }
+    return index
 }
 
 // delete duplicates in array
@@ -84,3 +93,6 @@ function binarySearch(array, element) {
 // let array = [100, 100, 50, 40, 40, 20, 10]
 // let index = binarySearch(array, 20)
 // console.log(index)
+
+// let array = [100, 100, 50, 40, 40, 20, 10]
+// let index = searchIndex(array, 20) 
