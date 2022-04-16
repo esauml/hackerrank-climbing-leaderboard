@@ -1,48 +1,39 @@
 export function climbingLeaderboard(ranked, player) {
-    let memo = {}
     let result = []
-    let memoTimes = 0
+    let lastIndex = 0
 
     console.time('deleteDuplicates')
     // delete duplicates in array
     ranked = deleteDuplicates(ranked)
     console.timeEnd('deleteDuplicates')
-
-    console.time('insertMemo')
-    // insert ranked as key in memo
-    memo[ranked[0]] = 0
-    for (let i = 1; i < ranked.length; i++) {
-        memo[ranked[i]] = i
-    }
-    console.timeEnd('insertMemo')
+    lastIndex = ranked.length - 1
 
     console.time('insertSortDesc')
     player.forEach(element => {
-        // check is not element in memo as key
-        if (!memo[element]) {
-            // search index of value bigger than element in ranked
-            let index = searchIndex(ranked, element)
-            // insert element in memo
-            memo[element] = index
-            // insert index in result
-            result.push(index + 1)
-        } else {
-            memoTimes++
-            return memo[element] + 1
-        }
+        // search index of value bigger than element in ranked
+        let index = searchIndex(ranked, element, lastIndex)
+        lastIndex = index
+
+        // insert index in result
+        result.push(index + 1)
     });
     console.timeEnd('insertSortDesc')
 
-    console.log('memoTimes:', memoTimes)
     return result
 }
 
 // search index of value bigger than element in ranked
-function searchIndex(ranked, element) {
-    let index = ranked.length - 1
-    for (let i = index; i >= 0; i--) {
-        if (ranked[i] <= element) {
+function searchIndex(ranked, element, lastIndex) {
+    if (ranked[0] < element) return 0
+
+    let index = lastIndex
+    for (let i = lastIndex; i >= 0; i--) {
+        if (ranked[i] === element) {
             index = i
+            break
+        }
+        if (ranked[i] > element) {
+            index = i + 1
             break
         }
     }
@@ -94,5 +85,7 @@ function binarySearch(array, element) {
 // let index = binarySearch(array, 20)
 // console.log(index)
 
-// let array = [100, 100, 50, 40, 40, 20, 10]
-// let index = searchIndex(array, 20) 
+let array = [10, 9, 8, 6]
+let index = searchIndex(array, 5, 3)
+index = searchIndex(array, 6, 4)
+console.log(index)
