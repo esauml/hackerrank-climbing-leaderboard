@@ -12,7 +12,7 @@ export function climbingLeaderboard(ranked, player) {
     // insert ranked as key in memo
     memo[ranked[0]] = 0
     for (let i = 1; i < ranked.length; i++) {
-        memo[ranked[i]] = i
+        memo[ranked[i]] = 1
     }
     console.timeEnd('insertMemo')
 
@@ -22,6 +22,8 @@ export function climbingLeaderboard(ranked, player) {
         if (!memo[element]) {
             // insert element in descendent sorted array
             ranked = insertSortDesc(ranked, element)
+            // insert element in memo
+            memo[element] = 1
         } else {
             memoTimes++
         }
